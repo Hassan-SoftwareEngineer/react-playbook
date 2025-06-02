@@ -1,29 +1,38 @@
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import { SidebarTrigger } from "@/components/ui/sidebar"
+import { SearchForm } from "@/components/search-form";
+import { useSidebar } from "@/components/ui/sidebar";
+import { Link } from "react-router-dom";
+import { headerLinks } from "./custom/organisms/Header/constants";
+import { logo } from "./assets/images";
 
 export function SiteHeader() {
+  const { toggleSidebar } = useSidebar()
+
   return (
-    <header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
-      <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
-        <SidebarTrigger className="-ml-1" />
-        <Separator
-          orientation="vertical"
-          className="mx-2 data-[orientation=vertical]:h-4"
-        />
-        <h1 className="text-base font-medium">Documents</h1>
-        <div className="ml-auto flex items-center gap-2">
-          <Button variant="ghost" asChild size="sm" className="hidden sm:flex">
-            <a
-              href="https://github.com/shadcn-ui/ui/tree/main/apps/v4/app/(examples)/dashboard"
-              rel="noopener noreferrer"
-              target="_blank"
-              className="dark:text-foreground"
-            >
-              GitHub
-            </a>
-          </Button>
+    <header className="bg-background sticky top-0 z-50 flex w-full items-center">
+      <div className="flex h-(--header-height) w-full items-center gap-2 px-4 justify-between">
+          <div className="flex gap-3 items-center h-full">
+             <button
+          onClick={toggleSidebar}
+        >
+            <img src={logo} alt="logo" className="h-10 w-10 bg-cover mt-0.5 cursor-pointer" />
+            </button>
+            <h1 className="text-xl xl:text-2xl font-semibold"> 3% CodeCraft </h1>
+          </div>
+
+        <div className="lg:w-1/2 flex justify-around p-2 items-center">
+          <div className="flex gap-2 font-semibold items-center">
+            {
+              headerLinks.map((link, index) => (
+                <Link to={link.path} key={index} className={`py-2 ${index == 3 ? "px-4 mt-0.5" : "px-6"} hover:rounded-3xl hover:bg-gray-800 ease-transition`}>
+                  {
+                    link.title
+                  }
+                </Link>
+              ))
+            }
+          </div>
         </div>
+        <SearchForm className="" />
       </div>
     </header>
   )
